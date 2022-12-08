@@ -23,13 +23,15 @@
 
 import Player from '@vimeo/player';
 
-iframeId = document.querySelector('#vimeo-player');
-console.log(iframeId);
+const LOCALSTORAGE_KEY = 'videoplayer-current-time';
 
-const player = new Player('handstick', {
-  id: 19231868,
-});
+const player = new Player('vimeo-player');
 
 player.on('play', function () {
   console.log('played the video!');
+});
+
+player.on('timeupdate', function (evt) {
+    localStorage.setItem(LOCALSTORAGE_KEY, target.value);
+    console.log(videoplayer-current-time);
 });
