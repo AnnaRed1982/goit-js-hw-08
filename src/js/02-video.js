@@ -22,16 +22,23 @@
 // Добавь в проект библиотеку lodash.throttle и сделай так, чтобы время воспроизведения обновлялось в хранилище не чаще чем раз в секунду.
 
 import Player from '@vimeo/player';
+import throttle from 'lodash.throttle';
 
+const player = new Player('vimeo-player', {});
 const LOCALSTORAGE_KEY = 'videoplayer-current-time';
 
-const player = new Player('vimeo-player');
-
-player.on('play', function () {
-  console.log('played the video!');
+player.on('timeupdate', function (time) {
+  throttle(localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(time)), 1000);
 });
 
-player.on('timeupdate', function (evt) {
-    localStorage.setItem(LOCALSTORAGE_KEY, target.value);
-    console.log(videoplayer-current-time);
-});
+const savedTime = localStorage.getItem(LOCALSTORAGE_KEY);
+const parsedTime = JSON.parse(savedTime);
+
+if (savedTime) {
+  console.log(parsedTime.seconds);
+  player.setCurrentTime(parsedTime.seconds);
+}
+
+// player.on('play', function () {
+//   console.log('played the video!');
+// });

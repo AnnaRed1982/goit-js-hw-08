@@ -19,3 +19,47 @@
 // При загрузке страницы проверяй состояние хранилища, и если там есть сохраненные данные, заполняй ими поля формы. В противном случае поля должны быть пустыми.
 // При сабмите формы очищай хранилище и поля формы, а также выводи объект с полями email, message и текущими их значениями в консоль.
 // Сделай так, чтобы хранилище обновлялось не чаще чем раз в 500 миллисекунд. Для этого добавь в проект и используй библиотеку lodash.throttle.
+
+import throttle from 'lodash.throttle';
+
+ref = {
+  form: document.querySelector('form'),
+  email: document.querySelector('input'),
+  message: document.querySelector('textarea'),
+};
+
+const LOCALSTORAGE_KEY = 'feedback-form-state';
+const formData = {};
+
+ref.form.addEventListener('submit', onFormSubmit);
+ref.form.addEventListener('input', throttle(onAddDataLocalStorage, 500));
+
+fillData();
+
+function onFormSubmit(evt) {
+  evt.preventDefault();
+  evt.currentTarget.reset();
+  localStorage.removeItem(LOCALSTORAGE_KEY);
+}
+
+function onAddDataLocalStorage(evt) {
+  formData[evt.target.name] = evt.target.value;
+  console.log(formData);
+  localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(formData));
+}
+
+function fillData() {
+  const savedData = localStorage.getItem(LOCALSTORAGE_KEY);
+  const parsedData = JSON.parse(savedData);
+
+  if (savedData) {
+    console.log(parsedData);
+    ref.email.value = parsedData.email;
+    ref.message.value = parsedData.message;
+  }
+}
+
+// ref.email.addEventListener('input', throttle(onEmailInput, 500));
+// ref.message.addEventListener('input', throttle(onMessageInput, 500));
+// function onEmailInput(evt) {}
+// function onMessageInput(evt) {}
