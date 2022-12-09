@@ -27,9 +27,12 @@ import throttle from 'lodash.throttle';
 const player = new Player('vimeo-player', {});
 const LOCALSTORAGE_KEY = 'videoplayer-current-time';
 
-player.on('timeupdate', function (time) {
-  throttle(localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(time)), 1000);
-});
+player.on(
+  'timeupdate',
+  throttle(function (time) {
+    localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(time));
+  }, 1000)
+);
 
 const savedTime = localStorage.getItem(LOCALSTORAGE_KEY);
 const parsedTime = JSON.parse(savedTime);
