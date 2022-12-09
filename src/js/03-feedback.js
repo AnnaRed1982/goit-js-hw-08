@@ -29,7 +29,7 @@ ref = {
 };
 
 const LOCALSTORAGE_KEY = 'feedback-form-state';
-const formData = {};
+let formData = {};
 
 ref.form.addEventListener('submit', onFormSubmit);
 ref.form.addEventListener('input', throttle(onAddDataLocalStorage, 500));
@@ -41,11 +41,14 @@ function onFormSubmit(evt) {
   evt.currentTarget.reset();
   console.log(formData);
   localStorage.removeItem(LOCALSTORAGE_KEY);
+  formData = {
+    email: '',
+    message: '',
+  };
 }
 
 function onAddDataLocalStorage(evt) {
   formData[evt.target.name] = evt.target.value;
-
   localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(formData));
 }
 
@@ -54,14 +57,18 @@ function fillData() {
   const parsedData = JSON.parse(savedData);
 
   if (savedData) {
-    console.log(parsedData);
-    ref.email.value = parsedData.email;
-    ref.message.value = parsedData.message;
+    if (parsedData.email) {
+      ref.email.value = parsedData.email;
+    }
+    if (parsedData.message) {
+      ref.message.value = parsedData.message;
+    }
+
+    formData = {
+      email: parsedData.email,
+      message: parsedData.message,
+    };
   }
 }
 
-// ref.email.addEventListener('input', throttle(onEmailInput, 500));
-// ref.message.addEventListener('input', throttle(onMessageInput, 500));
-// function onEmailInput(evt) {}
-// function onMessageInput(evt) {}
-//ghfh@yu.o
+
