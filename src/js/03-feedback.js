@@ -39,12 +39,13 @@ fillData();
 function onFormSubmit(evt) {
   evt.preventDefault();
   evt.currentTarget.reset();
+  console.log(formData);
   localStorage.removeItem(LOCALSTORAGE_KEY);
 }
 
 function onAddDataLocalStorage(evt) {
   formData[evt.target.name] = evt.target.value;
-  console.log(formData);
+
   localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(formData));
 }
 
@@ -63,3 +64,4 @@ function fillData() {
 // ref.message.addEventListener('input', throttle(onMessageInput, 500));
 // function onEmailInput(evt) {}
 // function onMessageInput(evt) {}
+//ghfh@yu.o
