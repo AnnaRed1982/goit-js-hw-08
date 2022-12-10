@@ -22,7 +22,7 @@
 
 import throttle from 'lodash.throttle';
 
-ref = {
+const ref = {
   form: document.querySelector('form'),
   email: document.querySelector('input'),
   message: document.querySelector('textarea'),
