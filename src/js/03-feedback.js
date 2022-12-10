@@ -29,7 +29,10 @@ const ref = {
 };
 
 const LOCALSTORAGE_KEY = 'feedback-form-state';
-let formData = {};
+let formData = {
+  email: '',
+  message: ''
+};
 
 ref.form.addEventListener('submit', onFormSubmit);
 ref.form.addEventListener('input', throttle(onAddDataLocalStorage, 500));
@@ -70,5 +73,3 @@ function fillData() {
     };
   }
 }
-
-
